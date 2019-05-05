@@ -39,11 +39,15 @@ extension AvailabilityViewController: UITableViewDataSource {
 extension AvailabilityViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.setSelected(day: indexPath.section, slot: indexPath.row, isSelected: true)
-        tableView.reloadRows(at: [indexPath], with: .fade)
+        if let cell = tableView.cellForRow(at: indexPath) as? AvailabilityCell {
+            cell.updateButton()
+        }
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         viewModel.setSelected(day: indexPath.section, slot: indexPath.row, isSelected: false)
-        tableView.reloadRows(at: [indexPath], with: .fade)
+        if let cell = tableView.cellForRow(at: indexPath) as? AvailabilityCell {
+            cell.updateButton()
+        }
     }
 }
