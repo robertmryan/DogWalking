@@ -25,6 +25,5 @@ class AvailabilityCell: UITableViewCell {
     func update(text: String, isSelected: Bool) {
         self.isSelected = isSelected
         slotLabel.text = text
-        selectedButton.isSelected = isSelected
     }
 }
