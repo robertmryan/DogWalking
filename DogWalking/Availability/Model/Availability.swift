@@ -9,6 +9,7 @@
 import Foundation
 
 struct Availability {
+    var id: String?
     let dayOfWeek: DayOfWeek
     let timeRange: TimeRange
 
@@ -27,6 +28,7 @@ struct Availability {
                 return nil
         }
 
+        self.id = dictionary["id"] as? String
         self.dayOfWeek = dayOfWeek
         self.timeRange = TimeRange(startTime: startTime, endTime: endTime)
     }

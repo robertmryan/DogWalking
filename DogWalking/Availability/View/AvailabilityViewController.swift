@@ -10,7 +10,9 @@ import UIKit
 
 class AvailabilityViewController: UIViewController {
 
-    var viewModel = AvailabilityViewModel()
+    @IBOutlet weak var tableView: UITableView!
+    
+    lazy var viewModel = AvailabilityViewModel(delegate: self)
 
 }
 
@@ -38,16 +40,24 @@ extension AvailabilityViewController: UITableViewDataSource {
 
 extension AvailabilityViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.setSelected(day: indexPath.section, slot: indexPath.row, isSelected: true)
-        if let cell = tableView.cellForRow(at: indexPath) as? AvailabilityCell {
-            cell.updateButton()
+        if viewModel.isSelected(day: indexPath.section, slot: indexPath.row) {
+            viewModel.deselect(day: indexPath.section, slot: indexPath.row)
+        } else {
+            viewModel.select(day: indexPath.section, slot: indexPath.row)
         }
     }
 
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        viewModel.setSelected(day: indexPath.section, slot: indexPath.row, isSelected: false)
-        if let cell = tableView.cellForRow(at: indexPath) as? AvailabilityCell {
-            cell.updateButton()
-        }
+//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//        viewModel.deselect(day: indexPath.section, slot: indexPath.row)
+//    }
+}
+
+extension AvailabilityViewController: AvailabilityViewModelDelegate {
+    func didSelect(at indexPaths: [IndexPath]) {
+        tableView?.reloadRows(at: indexPaths, with: .fade)
+    }
+
+    func didDeselect(at indexPaths: [IndexPath]) {
+        tableView?.reloadRows(at: indexPaths, with: .fade)
     }
 }
